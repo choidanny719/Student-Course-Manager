@@ -1,111 +1,142 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #253331;
+  background: #f6f6f2;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 15px;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+* {
   box-sizing: border-box;
 }
-
-h1,
-h2 {
-  font-family: var(--heading);
+body {
+  margin: 0;
+  min-width: 320px;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+input,
+select,
+textarea {
+  border: 1px solid #cbd1cc;
+  border-radius: 5px;
+}
+button {
+  padding: 8px 13px;
+  cursor: pointer;
+  color: inherit;
+  background: #fff;
   font-weight: 500;
-  color: var(--text-h);
 }
-
+button:hover:not(:disabled) {
+  border-color: #53776d;
+  background: #f0f4f1;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+input,
+select,
+textarea {
+  padding: 9px 10px;
+  min-width: 0;
+  background: #fff;
+  color: inherit;
+}
+textarea {
+  resize: vertical;
+}
+input[type='checkbox'] {
+  accent-color: #2c6556;
+  width: 17px;
+  height: 17px;
+}
+:focus-visible {
+  outline: 3px solid #7fae9b;
+  outline-offset: 3px;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: 30px;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  font-weight: 650;
 }
 h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+h3 {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  margin-bottom: 0;
 }
 p {
+  margin-bottom: 12px;
+}
+fieldset {
+  border: 0;
+  padding: 0;
   margin: 0;
+  min-width: 0;
 }
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
 }
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.primary {
+  background: #2c6556;
+  border-color: #2c6556;
+  color: white;
+}
+.primary:hover:not(:disabled) {
+  background: #214f43;
+  color: white;
+}
+.quiet {
+  background: transparent;
+  border-color: transparent;
+  font-weight: 400;
+}
+.danger {
+  background: #9b3834;
+  border-color: #9b3834;
+  color: white;
+}
+.danger:hover:not(:disabled) {
+  background: #7a2724;
+  color: white;
+}
+.muted {
+  color: #64726b;
+  font-weight: 400;
+}
+.error {
+  color: #9b3834;
+  margin: 12px 0 0;
+  font-size: 14px;
 }
