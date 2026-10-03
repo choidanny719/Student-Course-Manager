@@ -1,0 +1,49 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: course-manager/frontend/package-lock.json
+      - name: Backend tests and build
+        working-directory: course-manager
+        run: ./mvnw --batch-mode clean verify
+      - name: Frontend checks
+        working-directory: course-manager/frontend
+        run: |
+          npm ci
+          npm test
+          npm run lint
+          npm run build
+      - name: Browser tests
+        working-directory: course-manager/frontend
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-results
+          path: |
+            course-manager/target/surefire-reports
+            course-manager/frontend/playwright-report
+            course-manager/frontend/test-results
