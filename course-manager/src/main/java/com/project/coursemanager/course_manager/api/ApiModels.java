@@ -38,6 +38,8 @@ public final class ApiModels {
     public record EnrollmentInput(@NotNull @Positive Long studentId,
                                   @NotNull @Positive Long courseId) {}
 
+    public record CompletionInput(@NotNull Boolean completed) {}
+
     public record StudentView(Long id, String name, String email) {
         public static StudentView from(Student student) {
             return new StudentView(student.getId(), student.getName(), student.getEmail());

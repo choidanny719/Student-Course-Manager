@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.project.coursemanager.course_manager.repository.*;
 import java.time.LocalDate;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(ApiTestSupport.FixedTime.class)
 abstract class ApiTestSupport {
+    @TestConfiguration
+    static class FixedTime {
+        @Bean @Primary
+        Clock testClock() {
+            return Clock.fixed(Instant.parse("2026-10-03T01:00:00Z"), ZoneId.of("America/Vancouver"));
+        }
+    }
     @LocalServerPort int port;
     @Autowired AssignmentRepository assignments;
     @Autowired EnrollmentRepository enrollments;
