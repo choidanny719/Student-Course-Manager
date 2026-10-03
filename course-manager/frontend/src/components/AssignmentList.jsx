@@ -4,23 +4,28 @@ import { assignmentStatus, dateLabel } from '../dates'
 function AssignmentRow({ assignment, today, onComplete, onEdit, onDelete }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
-  const status = assignmentStatus(assignment, today)
+  const [pending, setPending] = useState(null)
+  const completed = pending ?? assignment.completed
+  const status = assignmentStatus({ ...assignment, completed }, today)
 
   async function toggle(event) {
+    const checked = event.target.checked
+    setPending(checked)
     setBusy(true)
     setError('')
     try {
-      await onComplete(assignment, event.target.checked)
+      await onComplete(assignment, checked)
     } catch (error) {
       setError(error.message)
     } finally {
+      setPending(null)
       setBusy(false)
     }
   }
 
   return (
     <article
-      className={`assignment-row ${assignment.completed ? 'is-complete' : ''}`}
+      className={`assignment-row ${completed ? 'is-complete' : ''}`}
       aria-label={assignment.title}
     >
       <div className="assignment-body">
@@ -44,7 +49,7 @@ function AssignmentRow({ assignment, today, onComplete, onEdit, onDelete }) {
           <input
             type="checkbox"
             aria-label={`Completed: ${assignment.title}`}
-            checked={assignment.completed}
+            checked={completed}
             onChange={toggle}
             disabled={busy}
           />

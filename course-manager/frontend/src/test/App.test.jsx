@@ -29,8 +29,10 @@ beforeEach(() => {
     'fetch',
     vi.fn(async (url, options = {}) => {
       const resource = url.split('/')[2].split('?')[0]
-      if (options.method === 'PATCH')
+      if (options.method === 'PATCH') {
         data.assignments[0].completed = JSON.parse(options.body).completed
+        return { ok: true, status: 200, json: async () => structuredClone(data.assignments[0]) }
+      }
       if (options.method === 'POST' && resource === 'courses') {
         return {
           ok: false,
@@ -50,6 +52,19 @@ async function openApp() {
 }
 
 describe('course workspace', () => {
+  it('restores the checkbox and shows an error if saving completion fails', async () => {
+    const user = await openApp()
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+      json: async () => ({ message: 'Unable to save completion' }),
+    })
+    const checkbox = screen.getByRole('checkbox', { name: 'Completed: Problem set' })
+    await user.click(checkbox)
+    expect(await screen.findByRole('alert')).toHaveTextContent('Unable to save completion')
+    expect(checkbox).not.toBeChecked()
+    expect(checkbox).toBeEnabled()
+  })
   it('keeps the completion checkbox visible and supports both directions', async () => {
     const user = await openApp()
     const checkbox = screen.getByRole('checkbox', { name: 'Completed: Problem set' })

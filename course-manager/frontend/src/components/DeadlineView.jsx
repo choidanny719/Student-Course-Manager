@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { defaultFilters, filterQuery, readFilters } from '../dates'
 import { useAssignments } from '../useWorkspace'
 import AssignmentList from './AssignmentList'
+import CalendarView from './CalendarView'
 
 export default function DeadlineView({ workspace, version, onAdd, ...actions }) {
   const [filters, setFilters] = useState(readFilters)
   const [draft, setDraft] = useState(filters)
   const [error, setError] = useState('')
+  const [view, setView] = useState('List')
   const courseId = workspace.courses.some((course) => String(course.id) === filters.courseId)
     ? filters.courseId
     : ''
@@ -117,7 +119,13 @@ export default function DeadlineView({ workspace, version, onAdd, ...actions }) 
       </form>
       <div className="section-heading">
         <h2>Assignments</h2>
-        <span className="muted">{!result.loading && `${result.data.length} shown`}</span>
+        <div className="view-switch" aria-label="Deadline view">
+          {['List', 'Calendar'].map((name) => (
+            <button key={name} aria-pressed={view === name} onClick={() => setView(name)}>
+              {name}
+            </button>
+          ))}
+        </div>
       </div>
       {result.loading ? (
         <p role="status" className="loading">
@@ -127,6 +135,16 @@ export default function DeadlineView({ workspace, version, onAdd, ...actions }) 
         <p role="alert" className="error">
           {result.error}
         </p>
+      ) : view === 'Calendar' ? (
+        <CalendarView
+          key={filterQuery(filters)}
+          assignments={result.data}
+          today={workspace.settings.today}
+          initialDate={filters.from || undefined}
+          canAdd={workspace.courses.length > 0}
+          onAdd={onAdd}
+          {...actions}
+        />
       ) : (
         <AssignmentList assignments={result.data} today={workspace.settings.today} {...actions} />
       )}

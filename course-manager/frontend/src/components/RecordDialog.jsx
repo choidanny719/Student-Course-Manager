@@ -8,7 +8,15 @@ const names = {
   enrollment: 'enrollment',
 }
 
-export default function RecordDialog({ kind, item, courseId, workspace, onSave, onClose }) {
+export default function RecordDialog({
+  kind,
+  item,
+  courseId,
+  dueDate,
+  workspace,
+  onSave,
+  onClose,
+}) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const title = `${item ? 'Edit' : 'Add'} ${names[kind]}`
@@ -115,7 +123,7 @@ export default function RecordDialog({ kind, item, courseId, workspace, onSave, 
                   type="date"
                   name="dueDate"
                   required
-                  defaultValue={item?.dueDate ?? workspace.settings.today}
+                  defaultValue={item?.dueDate ?? dueDate ?? workspace.settings.today}
                 />
               </label>
               <label>

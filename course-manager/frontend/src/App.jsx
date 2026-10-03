@@ -17,14 +17,14 @@ const paths = {
 }
 
 export default function App() {
-  const { data, error, reload, version } = useWorkspace()
+  const { data, error, reload, version, replaceAssignment } = useWorkspace()
   const [page, setPage] = useState('Courses')
   const [selected, setSelected] = useState(null)
   const [dialog, setDialog] = useState(null)
   const [notice, setNotice] = useState('')
 
-  function add(kind, courseId) {
-    setDialog({ kind, courseId })
+  function add(kind, courseId, dueDate) {
+    setDialog({ kind, courseId, dueDate })
   }
   function edit(kind, item) {
     setDialog({ kind, item })
@@ -57,8 +57,11 @@ export default function App() {
   }
 
   async function complete(assignment, completed) {
-    await api(`/assignments/${assignment.id}/completion`, { method: 'PATCH', body: { completed } })
-    await reload()
+    const updated = await api(`/assignments/${assignment.id}/completion`, {
+      method: 'PATCH',
+      body: { completed },
+    })
+    replaceAssignment(updated)
   }
 
   const actions = { onAdd: add, onEdit: edit, onDelete: remove, onComplete: complete }

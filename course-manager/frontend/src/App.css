@@ -457,3 +457,127 @@ dialog::backdrop {
     padding: 20px;
   }
 }
+
+.view-switch {
+  display: flex;
+  border: 1px solid #cbd1cc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.view-switch button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.view-switch button[aria-pressed='true'] {
+  background: #2c6556;
+  color: white;
+}
+.calendar-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+.calendar-heading h2 {
+  margin-bottom: 0;
+}
+.calendar-note {
+  font-size: 13px;
+  margin: 12px 0 16px;
+}
+.calendar {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: white;
+}
+.calendar th {
+  text-align: left;
+  padding: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #edf0e9;
+}
+.calendar td {
+  border: 1px solid #dce0d9;
+  vertical-align: top;
+  padding: 0;
+}
+.calendar-day {
+  width: 100%;
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border: 0;
+  border-radius: 0;
+  padding: 9px;
+  text-align: left;
+  background: transparent;
+}
+.calendar-day[aria-pressed='true'] {
+  background: #edf4ed;
+  box-shadow: inset 0 0 0 2px #527b62;
+}
+.calendar-day[aria-current='date'] .day-number {
+  background: #2c6556;
+  color: white;
+  border-radius: 50%;
+}
+.day-number {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+.day-assignment {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 400;
+  color: #355f49;
+}
+.day-assignment.done {
+  text-decoration: line-through;
+  color: #64726b;
+}
+.day-more {
+  font-size: 11px;
+  color: #64726b;
+}
+.day-count {
+  display: none;
+}
+.outside-month {
+  background: #f7f8f5;
+}
+.outside-month .day-number {
+  color: #87938b;
+}
+@media (max-width: 520px) {
+  .calendar th {
+    padding: 7px 2px;
+    text-align: center;
+    font-size: 11px;
+  }
+  .calendar-day {
+    min-height: 70px;
+    align-items: center;
+    padding: 6px 1px;
+  }
+  .day-assignment,
+  .day-more {
+    display: none;
+  }
+  .day-count {
+    display: block;
+    font-size: 10px;
+    color: #477566;
+  }
+}

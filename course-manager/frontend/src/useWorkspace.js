@@ -35,7 +35,17 @@ export function useWorkspace() {
     }
   }, [])
 
-  return { data, error, reload, version }
+  const replaceAssignment = useCallback((assignment) => {
+    setData((current) => ({
+      ...current,
+      assignments: current.assignments.map((item) =>
+        item.id === assignment.id ? assignment : item,
+      ),
+    }))
+    setVersion((value) => value + 1)
+  }, [])
+
+  return { data, error, reload, version, replaceAssignment }
 }
 
 export function useAssignments(query, version) {
